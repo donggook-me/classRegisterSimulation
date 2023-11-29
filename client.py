@@ -1,9 +1,8 @@
-# client.py
+# client.py ver1.0
 #-*- coding:utf-8 -*-
 import sys
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QSize
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QGridLayout,QHBoxLayout
-from PyQt5.QtGui import QIcon
 import socket
 import json
 
@@ -110,8 +109,8 @@ class ClientWindow(QWidget):
         self.num_subject_finished = 0 #수강신청 완료한 과목 수
         self.credit_subject = 0 #수강신청 완료한 학점
 
-        self.list_basket = [[["korean"],["국문학개론","화2B,3A,3B,목4A,4B,5A","3학점","조흥욱"],["1","한국어문학부\n국어국문학전공","전공선택","2 4 6 3 5 7 ","국문학개론","01","조흥욱","3.0 / 3.0 / 0.0","주","화2B,3A,3B,목4A,4B,5A\n북악관 2층 3호실"]],[["english"],["영어교육론","화2B,3A,3B,목2B,3A,3B","3학점","김효영"],["3-4","영어영문학부","전공선택","3 9 5 7 2 3","영어교육론","02","김효영","3.0 / 3.0 / 0.0","주","화2B,3A,3B,목2B,3A,3B\n북악관 4층 3호실"]],[["chinese"],["중국어문법","월5A,5B,6A,6B","2학점","전긍"],["2","중국학부\n중국어문전공","전공선택","3 9 7 3 4 5","중국어문법","01","전긍","2.0 / 2.0 / 0.0","주","\0\0\0\0\0월5A,5B,6A,6B\0\0\0\0\n북악관 7층 8호실"]]]
-        self.classify_subject_info = ["학년(기)","배정학과","이수구분","교과목번호","교과목명","분\0반","교강사명","학점 / 이론 / 실습","주\0/\0야","강의시간\0\0/\0\0강의실"] #수강과목 정보 분류 리스트
+        self.list_basket = [[["korean"],["국문학개론","화2B,3A,3B,목4A,4B,5A","3학점","조흥욱"],["1","한국어문학부\n국어국문학전공","전공선택","2 4 6 3 5 7 ","국문학개론","01","조흥욱","3.0 / 3.0 / 0.0","주","화2B,3A,3B,목4A,4B,5A\n북악관 2층 3호실"]],[["english"],["영어교육론","화2B,3A,3B,목2B,3A,3B","3학점","김효영"],["3-4","영어영문학부","전공선택","3 9 5 7 2 3","영어교육론","02","김효영","3.0 / 3.0 / 0.0","주","화2B,3A,3B,목2B,3A,3B\n북악관 4층 3호실"]],[["chinese"],["중국어문법","월5A,5B,6A,6B","2학점","전긍"],["2","중국학부\n중국어문전공","전공선택","3 9 7 3 4 5","중국어문법","01","전긍","2.0 / 2.0 / 0.0","주","월5A,5B,6A,6B\n북악관 7층 8호실"]]]
+        self.classify_subject_info = ["학년(기)","배정학과","이수구분","교과목번호","교과목명","분\0반","교강사명","학점 / 이론 / 실습","주\0/\0야","강의시간 / 강의실"] #수강과목 정보 분류 리스트
 
         self.list_finished_subject = []
 
@@ -187,7 +186,6 @@ class ClientWindow(QWidget):
         for i in range(len(self.list_basket)):
             box = QVBoxLayout()
             self.create_subject_box(box, self.list_basket[i])
-            print(self.list_basket[i][0][0])
             self.boxes[self.list_basket[i][0][0]] = box
 
         # 수강신청 완료 과목 목록
@@ -278,6 +276,7 @@ class ClientWindow(QWidget):
                 self.grid2.addWidget(lbl, i + 1, j)
 
         self.label_bom.setText('나의시간표 | 총 신청과목: {num} 과목 | 총 신청학점: {credit} 학점'.format(num=self.num_subject_finished, credit=self.credit_subject))
+
 
     def create_subject_box(self, group_box, info_subject):
 
