@@ -12,7 +12,7 @@ class ServerThread(QThread):
 
     def __init__(self):
         super().__init__()
-        self.resource_lock = threading.Lock()
+        self.resource_lock_dict = {"korean": threading.Lock(),  "english" : threading.Lock(), "chinese" : threading.Lock()}
         self.classDict = {"korean": [], "english": [], "chinese": []}
         self.classLimit = 1
         self.clients = {}
@@ -55,7 +55,7 @@ class ServerThread(QThread):
     def handle_resource_request(self, clientName, className):
         DONE = False
         if len(self.classDict[className]) < self.classLimit:
-            with self.resource_lock:
+            with self.resource_lock_dict[className]:
                 self.classDict[className].append(clientName)
                 DONE = True
                 self.return_resource_message('REQUEST_CLASS_SUCCEED', className, clientName)
@@ -69,7 +69,7 @@ class ServerThread(QThread):
     def handle_resource_release(self, clientName, className):
         DONE = False
         if clientName in self.classDict[className]:
-            with self.resource_lock:
+            with self.resource_lock_dict[className]:
                 self.classDict[className].remove(clientName)
                 DONE = True
                 # 한 유저가 한 과목을 수강포기했을 경우, 해당 클래스를 오픈 상태로 바꾸는 브로드캐스팅
