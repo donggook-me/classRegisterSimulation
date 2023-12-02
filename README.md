@@ -27,3 +27,13 @@ $ python server.py
 ```sh
 $ python client.py <학번>
 ```
+
+
+<img width="408" alt="image" src="https://github.com/donggook-me/classRegisterSimulation/assets/53322908/63745760-f593-4935-bb70-983c6ab7ac24">
+
+
+
+<img width="947" alt="image" src="https://github.com/donggook-me/classRegisterSimulation/assets/53322908/9f88c873-a8ea-4d0d-a401-89bd9c9bd2bf">
+
+
+
