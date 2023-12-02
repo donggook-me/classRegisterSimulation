@@ -47,6 +47,7 @@ class ServerThread(QThread):
             # print("release start..")
             className = jsonMessage['className']
             self.handle_resource_release(clientName, className)
+
         else:
             updatetxt = f"{clientName} : {jsonMessage['msg']}"
             self.serverWindow.update_text(updatetxt)
@@ -59,6 +60,8 @@ class ServerThread(QThread):
                 self.classDict[className].append(clientName)
                 DONE = True
                 self.return_resource_message('REQUEST_CLASS_SUCCEED', className, clientName)
+                self.serverWindow.update_text(f"{clientName} 학생이 {className} 과목을 신청 성공했습니다.")
+
                 # 전체 유저를 대상으로 해당 클래스가 꽉 찼음을 알린다.
                 if len(self.classDict[className]) == self.classLimit:
                     self.broadcast_class_status("CLASS_FULL", className)
@@ -72,11 +75,14 @@ class ServerThread(QThread):
             with self.resource_lock_dict[className]:
                 self.classDict[className].remove(clientName)
                 DONE = True
+                self.return_resource_message('RELEASE_CLASS_SUCCEED', className, clientName)
+                self.serverWindow.update_text(f"{clientName} 학생이 {className} 과목을 포기했습니다.")
                 # 한 유저가 한 과목을 수강포기했을 경우, 해당 클래스를 오픈 상태로 바꾸는 브로드캐스팅
                 if len(self.classDict[className]) == (self.classLimit - 1):
                     self.broadcast_class_status("CLASS_OPEN", className)
-                else:
-                    self.return_resource_message('RELEASE_CLASS_SUCCEED', className, clientName)
+                # else:
+
+
         if not DONE:
             self.return_resource_message('RELEASE_CLASS_FAIL', className, clientName)
 
@@ -122,6 +128,7 @@ class ServerThread(QThread):
         clientName = client_handler.receive_data()
         client_handler.set_client_name(clientName)
         self.clients[clientName] = client_handler
+        self.serverWindow.update_text(f"{clientName} 학생이 수강신청 프로그램에 입장하였습니다.")
 
 
 class ClientHandler(QThread):
