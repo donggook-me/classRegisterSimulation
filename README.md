@@ -5,9 +5,16 @@ pip 를 이용해 txt 파일에 명시된 대로 설치
 
 ```sh
 $ python -m venv venv  # Create a virtual environment
+```
+
+```sh
 $ source venv/bin/activate  # Activate the virtual environment (use `venv\Scripts\activate` on Windows)
+```
+
+```sh
 $ pip install -r requirements.txt  # Install dependencies from requirements.txt
 ```
+
 
 * 서버 실행
 
